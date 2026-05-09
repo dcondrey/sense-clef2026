@@ -339,7 +339,7 @@ The QWK=0.990 system achieves excellent performance with only 59 errors (1.42% e
 
 ## Appendix: File Locations
 
-- **Predictions**: `/Users/davidcondrey/workspace_local/panclef/sensemaking/submissions/push_qwk_submission.json`
-- **Ground Truth**: `/Users/davidcondrey/workspace_local/panclef/sensemaking/../sensemaking-2026-data/devset/dev.rubric.json`
-- **Analysis Script**: `/Users/davidcondrey/workspace_local/panclef/sensemaking/push_qwk_higher.py`
-- **Error Details**: `/Users/davidcondrey/workspace_local/panclef/sensemaking/error_analysis.json`
+- **Predictions**: `submissions/push_qwk_submission.json`
+- **Ground Truth**: `../sensemaking-2026-data/devset/dev.rubric.json`
+- **Analysis Script**: `push_qwk_higher.py`
+- **Error Details**: `error_analysis.json`

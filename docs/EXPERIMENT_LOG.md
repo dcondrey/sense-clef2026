@@ -656,5 +656,35 @@ This is essentially a Product of Experts approach that combines calibrated likel
 
 ---
 
-*Last updated: 2026-02-18*
-*Best Macro QWK: 0.9548 (probability combination)*
+## 12. Final Push to QWK 0.990 (Sessions 5-6)
+
+### Key Innovations
+
+| Session | Best Macro QWK | Key Innovation |
+|---|---|---|
+| Session 5 | 0.975 | Irish translation pipeline, cleanlab noise weighting |
+| Session 6 | **0.990** | Per-language KDE calibration |
+
+### Irish Translation Pipeline
+
+Irish (ga) was the single largest error source, with 7.28% error rate (5.1x the overall rate). Translating Irish items to English before feature extraction and DeBERTa scoring eliminated the cross-lingual embedding gap for this low-resource language.
+
+### Cleanlab Noise Weighting
+
+Cleanlab label quality scores identified 77 suspicious training items (quality < 0.4). Down-weighting these samples (weight=0.3) during LightGBM training reduced overfitting to noisy labels, which accounted for 44% of remaining errors.
+
+### Per-Language KDE Calibration
+
+Instead of a single global KDE bandwidth for probability combination, fitting separate bandwidths per language addressed calibration differences across the 13 languages. Irish and Greek benefited most from language-specific bandwidths.
+
+### Final Error Profile
+
+- **59 errors** out of 4,146 items (1.42% error rate)
+- 44% of remaining errors are on suspected noisy labels
+- 37% of remaining errors are on Irish items
+- 66% are boundary confusion (NC/PC or FC/PC)
+
+---
+
+*Last updated: 2026-05-07*
+*Best Macro QWK: 0.990 (Irish translation + cleanlab noise weighting + per-language KDE calibration)*

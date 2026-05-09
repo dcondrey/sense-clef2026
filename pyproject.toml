@@ -67,3 +67,8 @@ include = ["sense*"]
 [tool.ruff]
 line-length = 120
 target-version = "py310"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
