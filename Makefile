@@ -2,17 +2,18 @@
 
 PYTHON ?= python
 DATA ?= data/dev.rubric.json
+DEVSET_DIR ?= data
 INPUT ?= /tmp/sense-input
 OUTPUT ?= /tmp/sense-output
-MODEL_DIR ?= models/tira
+MODEL_DIR ?= models
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | \
 		awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 setup: ## Install package and dependencies
-	pip install -e ".[dev]"
-	$(PYTHON) -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')"
+	pip install -e ".[train,dev]"
+	$(PYTHON) -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')"
 	@echo "Setup complete."
 
 train: ## Train all models (DeBERTa + LGB + MLP ensemble)
@@ -21,8 +22,8 @@ train: ## Train all models (DeBERTa + LGB + MLP ensemble)
 predict: ## Run inference on input data
 	$(PYTHON) predict.py -i $(INPUT) -o $(OUTPUT)
 
-evaluate: ## Evaluate predictions against reference
-	$(PYTHON) evaluate.py --pred $(OUTPUT)/predictions.json --ref $(DATA)
+evaluate: ## Evaluate predictions against devset
+	$(PYTHON) evaluate.py -d $(DEVSET_DIR) -p $(OUTPUT) -t rubric
 
 test: ## Run pipeline validation tests
 	$(PYTHON) -m pytest tests/ -v 2>/dev/null || $(PYTHON) -c "from sense import models, features, ces, ensemble; print('All modules import successfully')"

@@ -44,7 +44,6 @@ from sklearn.model_selection import KFold
 from sklearn.metrics import cohen_kappa_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
-from scipy.stats import norm
 import lightgbm as lgb
 
 from sense.models import CORALHead, DeBERTaRubricScorer, RubricDataset, SimpleDataset
@@ -57,7 +56,7 @@ from sense.ensemble import (
     retrieval_score,
     get_question_key,
 )
-from sense.translate import detect_irish
+from sense.translate import detect_irish, translate_items
 
 logging.basicConfig(
     level=logging.INFO,
@@ -211,40 +210,7 @@ def predict_deberta(model, tokenizer, data, batch_size=16, device=None, dataset_
 
 def translate_irish(data):
     """Translate Irish answers to English (returns modified copy)."""
-    from transformers import MarianMTModel, MarianTokenizer
-
-    irish_indices = [i for i, item in enumerate(data) if item.get('lang') == 'ga']
-    if not irish_indices:
-        return data
-
-    logger.info(f"  Translating {len(irish_indices)} Irish items...")
-    ga_tok = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-ga-en')
-    ga_model = MarianMTModel.from_pretrained('Helsinki-NLP/opus-mt-ga-en')
-
-    irish_answers = [data[i]['input']['answer'] for i in irish_indices]
-    translations = []
-    for i in range(0, len(irish_answers), 4):
-        batch = irish_answers[i:i+4]
-        inputs = ga_tok(batch, return_tensors="pt", padding=True,
-                         truncation=True, max_length=512)
-        with torch.no_grad():
-            outputs = ga_model.generate(**inputs, max_length=512, num_beams=4)
-        translated = ga_tok.batch_decode(outputs, skip_special_tokens=True)
-        translations.extend(translated)
-
-    del ga_model, ga_tok
-    gc.collect()
-
-    data_translated = []
-    for i, item in enumerate(data):
-        new_item = json.loads(json.dumps(item))
-        if i in set(irish_indices):
-            idx_in_irish = irish_indices.index(i)
-            new_item['_original_answer'] = item['input']['answer']
-            new_item['input']['answer'] = translations[idx_in_irish]
-        data_translated.append(new_item)
-
-    return data_translated
+    return translate_items(data)
 
 
 def main():

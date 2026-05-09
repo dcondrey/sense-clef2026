@@ -91,13 +91,13 @@ Instead of simple averaging, SENSE converts each model's continuous scores into 
 ### Install
 
 ```bash
-pip install -e .
+pip install -e ".[train]"
 ```
 
 ### Train
 
 ```bash
-python train.py --data path/to/dev.rubric.json --output models/
+python train.py --data path/to/dev.rubric.json --output models
 ```
 
 ### Predict (TIRA)

@@ -28,4 +28,5 @@ jobs:
         run: python -c "from sense import models, features, ces, ensemble, translate, io; print('All modules OK')"
 
       - name: Lint
-        run: ruff check sense/ *.py || true
+        run: ruff check sense/ *.py
+        continue-on-error: true

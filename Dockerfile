@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install Python dependencies
 COPY pyproject.toml .
-RUN pip install --no-cache-dir ".[tira]"
+RUN pip install --no-cache-dir .
 
 # Pre-download models used at inference time
 RUN python -c "from sentence_transformers import SentenceTransformer; \
@@ -24,14 +24,6 @@ RUN python -c "from sentence_transformers import SentenceTransformer; \
 
 RUN python -c "from sentence_transformers import CrossEncoder; \
     CrossEncoder('cross-encoder/nli-deberta-v3-base')"
-
-RUN python -c "from transformers import AutoModel, AutoTokenizer; \
-    AutoModel.from_pretrained('cross-encoder/nli-deberta-v3-base'); \
-    AutoTokenizer.from_pretrained('cross-encoder/nli-deberta-v3-base'); \
-    AutoModel.from_pretrained('microsoft/mdeberta-v3-base'); \
-    AutoTokenizer.from_pretrained('microsoft/mdeberta-v3-base'); \
-    AutoModel.from_pretrained('FacebookAI/xlm-roberta-large'); \
-    AutoTokenizer.from_pretrained('FacebookAI/xlm-roberta-large', use_fast=False)"
 
 RUN python -c "from transformers import MarianMTModel, MarianTokenizer; \
     MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-ga-en'); \
