@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sense-clef2026"
+version = "1.0.0"
+description = "SENSE: Sensemaking Evaluation via NLI and Semantic Entailment for PAN@CLEF 2026"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.10"
+authors = [
+    {name = "David Condrey"},
+]
+keywords = [
+    "nlp",
+    "sensemaking",
+    "answer-assessment",
+    "ordinal-regression",
+    "multilingual",
+    "nli",
+    "clef",
+    "pan",
+    "eloquent",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.11.0",
+    "scikit-learn>=1.3.0",
+    "lightgbm>=4.0.0",
+    "sentence-transformers>=2.2.0",
+    "transformers>=4.35.0",
+    "torch>=2.0.0",
+    "sentencepiece>=0.1.99",
+    "protobuf>=3.20.0",
+    "tqdm>=4.65.0",
+]
+
+[project.optional-dependencies]
+train = [
+    "cleanlab>=2.5.0",
+]
+tira = []
+dev = [
+    "cleanlab>=2.5.0",
+    "pytest>=7.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/davidcondrey/sense-clef2026"
+Repository = "https://github.com/davidcondrey/sense-clef2026"
+
+[tool.setuptools.packages.find]
+include = ["sense*"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"

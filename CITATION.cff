@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "SENSE: Sensemaking Evaluation via NLI and Semantic Entailment"
+type: software
+authors:
+  - family-names: Condrey
+    given-names: David
+version: 1.0.0
+date-released: 2026-05-07
+license: Apache-2.0
+repository-code: "https://github.com/davidcondrey/sense-clef2026"
+keywords:
+  - sensemaking
+  - answer-assessment
+  - ordinal-regression
+  - multilingual-nlp
+  - natural-language-inference
+  - clef-2026
+preferred-citation:
+  type: conference-paper
+  title: "SENSE: Sensemaking Evaluation via NLI and Semantic Entailment"
+  authors:
+    - family-names: Condrey
+      given-names: David
+  collection-title: "Working Notes of CLEF 2026 - Conference and Labs of the Evaluation Forum"
+  year: 2026
+  conference:
+    name: "CLEF 2026"
