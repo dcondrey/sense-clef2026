@@ -5,23 +5,29 @@
 ![CLEF 2026](https://img.shields.io/badge/CLEF-2026-orange)
 ![Task](https://img.shields.io/badge/task-ELOQUENT%20Sensemaking-purple)
 
-**Neuro-symbolic rubric verification with constrained evidence scoring for multilingual answer assessment.**
+**Team `writerslogic` submission to the CLEF 2026 ELOQUENT Sensemaking Task (rubric-based rating)** — and the code behind the paper *"The PC Attractor: Selective Generalization vs. Domain Collapse in a CORAL + KDE Ordinal Regression Pipeline"* (CLEF 2026 Working Notes, to appear).
 
-Team `writerslogic` submission to the [PAN@CLEF 2026 ELOQUENT Sensemaking Task](https://pan.webis.de/clef26/pan26-web/sensemaking.html), scoring **QWK 0.990** on the rubric track (59/4146 errors, 1.42% error rate).
+> **Read this first.** On the development set this system reaches QWK 0.990, and on the subset of the official test set that duplicates development items it scores a perfect QWK 1.000. **Those are memorization, not generalization.** On the disjoint general test set it scores **QWK 0.433**, and on the out-of-domain PISA benchmark it collapses to **QWK 0.053** (overall 0.243, rank 7 of 12 on the rubric track). The paper — and this repository — exist to trace *why*: a "PC attractor" that funnels 71.4% of novel items into the middle class. This is published as a diagnostic artifact for that failure analysis, not as a high-scoring system.
 
 ---
 
-## Key Results
+## Official Results (rubric track)
 
-| Track | Metric | Score |
-|-------|--------|-------|
-| Rubric (3-class) | Quadratic Weighted Kappa | **0.990** |
-| Rubric (3-class) | Accuracy | 98.6% |
-| Simple (5-class) | Quadratic Weighted Kappa | 0.914 |
+| Evaluation set | QWK | Note |
+|---|---|---|
+| Duplicate-anchor subset (also in dev) | **1.000** | memorization check; excluded from ranking |
+| Development set (in-sample) | 0.990 | inflated; not a generalization estimate |
+| **General test set (novel items)** | **0.433** | official score |
+| **PISA test set (out-of-domain)** | **0.053** | catastrophic collapse |
+| **Overall** (mean of test + PISA) | **0.243** | **rank 7 / 12** |
 
-### Development Trajectory
+## The PC Attractor (the finding)
 
-| Phase | Approach | QWK | Key Insight |
+On 42,606 novel test items, **71.4% are predicted Partially Correct** despite PC being the 28% minority class in training. The paper traces this to three interacting causes: (1) CORAL biases that barely moved from their `[+1, -1]` initialization, mapping uncertain logits to the PC midpoint by algebraic identity; (2) KDE bandwidths tuned on tightly-clustered in-distribution scores, creating a PC "attractor basin" spanning 63% of the score range; (3) an out-of-fold / in-sample reference mismatch that widens the basin further. The dev-set metrics below are reported for completeness but are **in-sample and attractor-inflated** — see the paper for the honest generalization story.
+
+### Development Trajectory (in-sample dev QWK — inflated)
+
+| Phase | Approach | Dev QWK | Key Insight |
 |-------|----------|-----|-------------|
 | Phase 0 | Best heuristic (embedding differentials) | 0.362 | Ceiling without supervision |
 | Phase 1 | ML V1 (SBERT + NLI + XGBoost) | ~0.72 | Supervised learning unlocks signal |
@@ -29,6 +35,8 @@ Team `writerslogic` submission to the [PAN@CLEF 2026 ELOQUENT Sensemaking Task](
 | Phase 3 | + DeBERTa CORAL cross-encoder | 0.914 | Ordinal regression captures rubric semantics |
 | Phase 4 | + KDE PoE ensemble | 0.970 | Product of Experts calibration |
 | Phase 5 | + Irish translation + noise-aware training | 0.990 | Per-language calibration, cleanlab weighting |
+
+Note the disconnect: this table climbs to 0.990 in-sample while true novel-item generalization is 0.433 — the gap *is* the paper's subject.
 
 ---
 
@@ -148,7 +156,7 @@ Prepended to V3 features as the first 4 columns. The LightGBM monotonic constrai
 
 ## Ablation Study
 
-Impact of each component, measured on the full 4,146-item devset:
+Impact of each component, measured on the full 4,146-item devset (in-sample — these gains do **not** carry to novel test items; see the PC-attractor note above):
 
 | Configuration | QWK | Delta |
 |---------------|-----|-------|
@@ -212,11 +220,12 @@ sense-clef2026/
 ## Citation
 
 ```bibtex
-@inproceedings{condrey2026sense,
-  title     = {{SENSE}: Sensemaking Evaluation via {NLI} and Semantic Entailment},
+@inproceedings{condrey2026pcattractor,
+  title     = {The {PC} Attractor: Selective Generalization vs.\ Domain Collapse in a {CORAL} + {KDE} Ordinal Regression Pipeline},
   author    = {Condrey, David},
   booktitle = {Working Notes of CLEF 2026 -- Conference and Labs of the Evaluation Forum},
-  year      = {2026}
+  year      = {2026},
+  note      = {ELOQUENT Sensemaking Task; to appear}
 }
 ```
 
