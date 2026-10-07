@@ -1,18 +1,8 @@
-<!-- repo-header:start -->
-<h3 align="center">SENSE: Sensemaking Evaluation via NLI and Semantic Entailment</h3>
+### SENSE: Sensemaking Evaluation via NLI and Semantic Entailment
 
-<p align="center"><strong>CLEF 2026 ELOQUENT Sensemaking — &#x27;The PC Attractor&#x27;: a CORAL+KDE ordinal-regression pipeline that collapses under domain shift (QWK 0.433 test, 0.053 PISA).</strong></p>
+CLEF 2026 ELOQUENT Sensemaking, 'The PC Attractor': a CORAL+KDE ordinal-regression pipeline that collapses under domain shift (QWK 0.433 test, 0.053 PISA).
 
-<p align="center">
-  <a href="https://github.com/dcondrey/sense-clef2026/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/dcondrey/sense-clef2026/ci.yml?style=flat-square&labelColor=20232a&branch=main&label=CI" alt="CI"></a>
-  <a href=".bestpractices.json"><img src="https://img.shields.io/badge/best%20practices-evidence%20reviewed-6a4c93?style=flat-square&labelColor=20232a" alt="Best Practices Evidence"></a>
-  <a href="https://github.com/dcondrey/sense-clef2026/blob/main/LICENSE"><img src="https://img.shields.io/github/license/dcondrey/sense-clef2026?style=flat-square&labelColor=20232a&color=007ec6&label=license" alt="License"></a>
-  <a href="https://github.com/dcondrey/sense-clef2026/blob/main/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant%202.1-6a4c93?style=flat-square&labelColor=20232a" alt="Code of Conduct"></a>
-  <a href="https://github.com/sponsors/dcondrey"><img src="https://img.shields.io/badge/GitHub%20Sponsors-Sponsor-EA4AAA?style=flat-square&labelColor=20232a" alt="GitHub Sponsors"></a>
-</p>
-<!-- repo-header:end -->
-
----
+[![CI](https://img.shields.io/github/actions/workflow/status/dcondrey/sense-clef2026/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/dcondrey/sense-clef2026/actions/workflows/ci.yml) [![License](https://img.shields.io/github/license/dcondrey/sense-clef2026?style=flat-square)](https://github.com/dcondrey/sense-clef2026/blob/main/LICENSE)
 
 > **Read this first.** On the development set this system reaches QWK 0.990, and on the subset of the official test set that duplicates development items it scores a perfect QWK 1.000. **Those are memorization, not generalization.** On the disjoint general test set it scores **QWK 0.433**, and on the out-of-domain PISA benchmark it collapses to **QWK 0.053** (overall 0.243, rank 7 of 12 on the rubric track). The paper — and this repository — exist to trace *why*: a "PC attractor" that funnels 71.4% of novel items into the middle class. This is published as a diagnostic artifact for that failure analysis, not as a high-scoring system.
 
